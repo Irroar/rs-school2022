@@ -464,6 +464,7 @@ body {
     row-gap: 40px;
     flex-direction: column;
     align-items: center;
+    max-width: 290px;
   }
 }
 
@@ -593,7 +594,6 @@ body {
   }
 
 }
-
 
 /* ======================= BURGER ======================== */
 
