@@ -221,6 +221,10 @@ function generatePetsArray(pagesCount) {
       petsArray.push(createCard(pet));
     }
   }
+  console.log("Массив из 48 животных поименно:")
+  for (let item of petsArray) {
+    console.log(item.childNodes[1].innerHTML)
+  }
   return petsArray;
 }
 
