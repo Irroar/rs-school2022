@@ -138,7 +138,7 @@ function getBlankSet(a) {
 function createBlankCard (pet) {
   let card = document.createElement('div');
   let photo = document.createElement('img');
-  let name = document.createElement('div');
+  let name = document.createElement('h4');
   let button = document.createElement('button');
 
   //photo.src = pet.img;
@@ -158,7 +158,7 @@ function createBlankCard (pet) {
 function createCard (pet) {
   let card = document.createElement('div');
   let photo = document.createElement('img');
-  let name = document.createElement('div');
+  let name = document.createElement('h4');
   let button = document.createElement('button');
 
   photo.src = pet.img;
@@ -222,6 +222,7 @@ function slider() {
 }
 slider();
 
+// burger
 
 const burger = document.querySelector('.header__burger');
 const menu = document.querySelector('.header__menu');
@@ -249,4 +250,54 @@ function closeBurger() {
     headerConteiner.classList.toggle('burger');
     headerLogo.classList.toggle('burger');
   }
+}
+
+// modal window
+
+const modalWindow = document.querySelector('.modal');
+const modalBtn = document.querySelector('.close-modal');
+const modalOverlay = document.querySelector('.modal-overlay');
+const modalImg = document.querySelector('.modal__content__image');
+const modalTitle = document.querySelector('.content-pet__name__title');
+const modalSubtitle = document.querySelector('.content-pet__name__subtitle');
+const modalDesc = document.querySelector('.content-pet__desc');
+const modalList = document.querySelectorAll('.content-pet__rest__item');
+
+const openModalBtns = document.querySelectorAll('.friends__card');
+
+for (let btn of openModalBtns) {
+  btn.addEventListener('click', e => {
+    let card = e.target.closest('div').children[1];
+
+    for (let pet of jsonData) {
+      if (pet.name === card.innerHTML) {
+        modalImg.src = pet.img;
+        modalTitle.innerHTML = pet.name;
+        modalSubtitle.innerHTML = pet.type + ' - ' + pet.breed;
+        modalDesc.innerHTML = pet.description;
+
+        modalList[0].innerHTML = '<span class="_bold">Age: </span>' + pet.age;
+        modalList[1].innerHTML = '<span class="_bold">Inoculations: </span>' + pet.inoculations;
+        modalList[2].innerHTML = '<span class="_bold">Diseases: </span>' + pet.diseases;
+        modalList[3].innerHTML = '<span class="_bold">Parasites: </span>' + pet.parasites;
+        openModalWindow();
+      }
+    }
+  })
+}
+
+
+modalBtn.addEventListener('click', closeModalWindow);
+modalOverlay.addEventListener('click', closeModalWindow);
+
+function openModalWindow() {
+  modalWindow.classList.add('open');
+  modalOverlay.classList.add('open');
+  body.classList.add('lock');
+}
+
+function closeModalWindow() {
+  modalWindow.classList.remove('open');
+  modalOverlay.classList.remove('open');
+  body.classList.remove('lock');
 }
