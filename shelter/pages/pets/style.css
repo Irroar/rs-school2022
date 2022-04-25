@@ -81,6 +81,7 @@ body {
   font-weight: 400;
   font-family: Georgia;
   color: rgb(0, 0, 0);
+  scroll-behavior: smooth;
 }
 
 .wrapper {
@@ -589,7 +590,29 @@ body {
   display: none;
 }
 
+.overlay {
+  position: fixed;
+  display: none;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  background-color: rgba(41,41,41,0.6);
+  cursor: pointer;
+}
+
 @media (max-width: 767px) {
+  body.lock {
+    overflow: hidden;
+  }
+
+  .overlay.active {
+    display: block;
+  }
+
   .header__burger {
     display: block;
     position: relative;
@@ -597,11 +620,12 @@ body {
     height: 20px;
     margin-right: 62px;
     margin-top: 15px;
+    z-index: 4;
   }
 
   .header__burger span {
     position: absolute;
-    background-color: #000000;
+    background-color: var(--color-dark-l);
     left: 19px;
     width: 100%;
     height: 2px;
@@ -613,7 +637,7 @@ body {
   .header__burger:after {
     content: '';
     position: absolute;
-    background-color: #000000;
+    background-color: var(--color-dark-l);
     width: 100%;
     height: 2px;
     left: 19px;
@@ -627,5 +651,73 @@ body {
   .header__burger:after {
     bottom: 7px;
   }
+
+  .header__burger.active:before {
+    transform: rotate(90deg);
+    left: 8px;
+    top: 1px;
+  }
+
+  .header__burger.active span {
+    transform: rotate(90deg);
+    left: 18px;
+  }
+
+  .header__burger.active:after {
+    transform: rotate(90deg);
+    bottom: 17px;
+    left: 28px;
+  }
+
+  .header__menu {
+    display: block;
+    position: fixed;
+    top: 0px;
+    right: -100%;
+    width: 320px;
+    height: 100vh;
+    overflow: auto;
+    background-color: var(--color-light-xl);
+    transition: all 0.5s;
+    z-index: 3;
+  }
+
+  .header__menu.active {
+    right: 0px;
+  }
+
+  .header__list {
+    display: flex;
+    margin-top: 248px;
+    flex-direction: column;
+    row-gap: 40px;
+    align-items: center;
+  }
+
+  .header__link {
+    font-size: 32px;
+    line-height: 160%;
+    font-family: Arial;
+  }
+
+  .header__item:not(:last-child) {
+    margin: 0px;
+  }
+
+  .header__container.burger {
+    justify-content: flex-end;
+  }
+
+  .header__logo.burger {
+    z-index: 4;
+    padding-right: 0px;
+  }
 }
+
+@media (max-width: 730px) {
+  .header__logo.burger {
+    padding-right: 22px;
+  }
+}
+
 
