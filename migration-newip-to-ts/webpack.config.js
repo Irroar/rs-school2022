@@ -18,7 +18,7 @@ const baseConfig = {
                 use: ['style-loader', 'css-loader'],
             },
             {
-                test: /\.jpg$/,
+                test: /\.(png|jpe?g|gif|svg|webp|ico)$/i,
                 type: 'asset/resource',
                 generator: {
                     filename: 'img/[name][ext]',
