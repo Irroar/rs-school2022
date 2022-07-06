@@ -2,7 +2,7 @@ import './sources.css';
 import { ISource } from '../../../interfaces';
 
 class Sources {
-    draw(data: ISource[]): void {
+    public draw(data: ISource[]): void {
         const fragment: DocumentFragment = document.createDocumentFragment();
         const sourceItemTemp: HTMLTemplateElement = document.querySelector('#sourceItemTemp') as HTMLTemplateElement;
 

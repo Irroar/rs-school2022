@@ -1,8 +1,7 @@
-import { ISources } from '../../interfaces';
 import { HTTPStatusCodes, RequestOptions, CallBack } from '../../types';
 
 class Loader {
-    baseLink: string;
+    baseLink: Required<string>;
     options: object;
 
     constructor(baseLink: string, options: object) {
@@ -10,16 +9,16 @@ class Loader {
         this.options = options;
     }
 
-    getResponse(
+    protected getResponse<ResponseInterface>(
         { endpoint, options = {} }: { endpoint: string; options?: Partial<RequestOptions> },
-        callback: CallBack<ISources> = (): void => {
+        callback: CallBack<ResponseInterface> = (): void => {
             console.error('No callback for GET response');
         }
     ): void {
         this.load('GET', endpoint, callback, options);
     }
 
-    errorHandler(res: Response): Response {
+    private errorHandler(res: Response): Response {
         if (!res.ok) {
             if (res.status === HTTPStatusCodes.UNAUTHORIZED || res.status === HTTPStatusCodes.NOT_FOUND)
                 console.log(`Sorry, but there is ${res.status} error: ${res.statusText}`);
@@ -29,7 +28,7 @@ class Loader {
         return res;
     }
 
-    makeUrl(options: Record<string, never>, endpoint: string): string {
+    private makeUrl(options: Record<string, never>, endpoint: string): string {
         const urlOptions: { [property: string]: string } = { ...this.options, ...options };
         let url = `${this.baseLink}${endpoint}?`;
 
@@ -40,11 +39,16 @@ class Loader {
         return url.slice(0, -1);
     }
 
-    load(method: string, endpoint: string, callback: CallBack<ISources>, options = {}): void {
+    private load<ResponseInterface>(
+        method: string,
+        endpoint: string,
+        callback: CallBack<ResponseInterface>,
+        options = {}
+    ): void {
         fetch(this.makeUrl(options, endpoint), { method })
             .then(this.errorHandler)
             .then((res: Response) => res.json())
-            .then((data: ISources) => callback(data))
+            .then((data: ResponseInterface) => callback(data))
             .catch((err: Error) => console.error(err));
     }
 }

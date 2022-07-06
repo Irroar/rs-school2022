@@ -25,7 +25,7 @@ export interface ISource {
     country: string;
 }
 
-export interface ISources extends IData {
+export interface ISources {
     status: string;
     sources: ISource[];
 }
