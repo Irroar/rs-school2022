@@ -1,4 +1,5 @@
 import { ISources } from '../../interfaces';
+import { HTTPStatusCodes, RequestOptions, CallBack } from '../../types';
 
 class Loader {
     baseLink: string;
@@ -10,8 +11,8 @@ class Loader {
     }
 
     getResponse(
-        { endpoint, options = {} }: { endpoint: string; options?: { sources?: string } },
-        callback: (data: ISources) => void = () => {
+        { endpoint, options = {} }: { endpoint: string; options?: Partial<RequestOptions> },
+        callback: CallBack<ISources> = (): void => {
             console.error('No callback for GET response');
         }
     ): void {
@@ -20,7 +21,7 @@ class Loader {
 
     errorHandler(res: Response): Response {
         if (!res.ok) {
-            if (res.status === 401 || res.status === 404)
+            if (res.status === HTTPStatusCodes.UNAUTHORIZED || res.status === HTTPStatusCodes.NOT_FOUND)
                 console.log(`Sorry, but there is ${res.status} error: ${res.statusText}`);
             throw Error(res.statusText);
         }
@@ -39,7 +40,7 @@ class Loader {
         return url.slice(0, -1);
     }
 
-    load(method: string, endpoint: string, callback: (data: ISources) => void, options = {}): void {
+    load(method: string, endpoint: string, callback: CallBack<ISources>, options = {}): void {
         fetch(this.makeUrl(options, endpoint), { method })
             .then(this.errorHandler)
             .then((res: Response) => res.json())

@@ -1,8 +1,9 @@
 import { IData, ISources } from '../../interfaces';
 import AppLoader from './appLoader';
+import { CallBack } from '../../types';
 
 class AppController extends AppLoader {
-    getSources(callback: (data: ISources) => void): void {
+    getSources(callback: CallBack<ISources>): void {
         super.getResponse(
             {
                 endpoint: 'sources',
@@ -11,7 +12,7 @@ class AppController extends AppLoader {
         );
     }
 
-    getNews(e: MouseEvent, callback: (data: IData) => void): void {
+    getNews(e: MouseEvent, callback: CallBack<IData>): void {
         let target: HTMLElement = e.target as HTMLElement;
         const newsContainer: HTMLElement = e.currentTarget as HTMLElement;
 
