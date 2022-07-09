@@ -1,40 +1,55 @@
-import { ICoffee } from "../types";
+import { ICoffee } from "types";
 import { ProductsView } from "./products/products";
 
 export class AppView { 
-  private products: ProductsView;
+  public products: ProductsView;
+  public body: HTMLElement;
+  public wrapper: HTMLDivElement;
+  public header: HTMLHeadElement;
+  public headerContainer: HTMLDivElement;
+  public heading: HTMLHeadingElement;
+  public basket: HTMLDivElement;
+  public main: HTMLElement;
+  public renderedProducts: HTMLDivElement;
 
-  constructor(products: ICoffee[]) {
-    this.products = new ProductsView(products);
+  constructor() {
+    this.products = new ProductsView();
+    this.body = document.body;
+    this.wrapper = document.createElement('div');
+    this.header = document.createElement('header');
+    this.headerContainer = document.createElement('div');
+    this.heading = document.createElement('h1');
+    this.basket = document.createElement('div');
+    this.main = document.createElement('main');
+    this.renderedProducts = this.products.getRenderedPage();
   }
 
   public renderApp(): void {
-    const body: HTMLElement = document.body;
-    const wrapper: HTMLDivElement = document.createElement('div');
-    const header: HTMLHeadElement = document.createElement('header');
-    const headerContainer: HTMLDivElement = document.createElement('div');
-    const heading: HTMLHeadingElement = document.createElement('h1');
-    const basket: HTMLDivElement = document.createElement('div');
-    const main: HTMLElement = document.createElement('main');
-    const renderedProducts: HTMLDivElement = this.products.getRenderedPage();
-
-    wrapper.className = 'wrapper';
-    header.className = 'header';
-    headerContainer.className = 'header__container';
-    basket.className = 'header__basket';
-    main.className = 'main';
-    main.classList.add('_container-main');
-    headerContainer.classList.add('_container');
+    this.wrapper.className = 'wrapper';
+    this.header.className = 'header';
+    this.headerContainer.className = 'header__container';
+    this.basket.className = 'header__basket';
+    this.main.className = 'main';
+    this.main.classList.add('_container-main');
+    this.headerContainer.classList.add('_container');
     
-    heading.innerHTML = "Online Coffee Store";
-    basket.innerHTML = 'Basket';
+    this.heading.innerHTML = "Online Coffee Store";
+    this.basket.innerHTML = 'Basket';
 
-    header.append(headerContainer);  
-    headerContainer.append(heading);
-    headerContainer.append(basket);
-    wrapper.append(header);
-    main.append(renderedProducts);
-    wrapper.append(main);
-    body.append(wrapper);
+    this.header.append(this.headerContainer);  
+    this.headerContainer.append(this.heading);
+    this.headerContainer.append(this.basket);
+    this.wrapper.append(this.header);
+    this.main.append(this.renderedProducts);
+    this.wrapper.append(this.main);
+    this.body.append(this.wrapper);
+  }
+
+  public renderProducts(data: ICoffee[]): void {
+    while(this.products.paginationContainer.firstChild) {
+      this.products.paginationContainer.removeChild(this.products.paginationContainer.firstChild);
+    }
+    const con: HTMLDivElement = this.products.displayCoffee(data);
+    this.products.paginationContainer.append(con);
   }
 }
