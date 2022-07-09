@@ -1,0 +1,22 @@
+.product__container {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 20px;
+  row-gap: 30px;
+  justify-content: center;
+}
+
+.product__item {
+  max-width: 300px;
+  text-align: center;
+  border: 1px solid black;
+  border-radius: 10px;
+}
+
+.product__item > * {
+  margin: 0px 0px 20px 0px;
+}
+
+.product__name {
+  font-size: 18px;
+}
